@@ -1,0 +1,75 @@
+﻿@page
+@model WebApplication2.Pages.BookList.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br/>
+<div class="containter-row">
+    <div class="col=6"> </div>
+    <h2 class="text-info">Book List</h2> 
+    <div class="col=6 text-right">
+        <a asp-page="Create" class="btn btn-primary">Crate New Book</a>
+        
+    </div>
+</div>
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-info alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}
+
+
+<form method="post">
+    @if (Model.Books.Count() > 0)
+    {
+        <br /> <br />
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    @Html.DisplayNameFor(m => m.Books.FirstOrDefault().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Books.FirstOrDefault().Auther)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Books.FirstOrDefault().ISBN)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Books)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Auther)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ISBN)
+                    </td>
+                    <td>
+                        <button asp-page-handler="Delete" asp-route-id="@item.Id"
+                                onclick="return confirm('are you sure?')"
+                                class="btn btn-danger btn-sm">Delete</button>
+                        <a asp-route-id="@item.Id" asp-page="Edit" class="bth btn-success btn-sm">Edit</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+
+
+    else
+    {
+        <p> No Books Available</p>
+    }
+</form>
